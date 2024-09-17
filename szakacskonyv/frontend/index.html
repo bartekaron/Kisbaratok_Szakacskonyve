@@ -1,20 +1,65 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <link rel="stylesheet" href="Assets/css/app.css">
     <link rel="stylesheet" href="Assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Assets/css/app.css">
     <title>Szakácskönyv</title>
 </head>
 <body>
-    
+    <div class="container">
+        <header>
+            Szakácskönyv
+        </header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">   
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#" onclick="render('login')">Bejelentkezés</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="render('register')">Regisztráció</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Receptek</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Kategória [ADMIN]</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Felhasználók [ADMIN]</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Saját profil</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Kijelentkezés</a>
+                  </li>                 
+                </ul>
+              </div>
+            </div>
+          </nav>
+        <main>
+            <!-- Content-->
+        </main>
+        <footer>
+            13.A Projekt munka - Szakácskönyv <br>
+            Bartek Áron - Utasi Balázs
+        </footer>
+    </div>
 
-    
+    <!--         Controllers         -->
+    <script src="Controllers/recipeCtrl.js"></script>
+    <script src="Controllers/userCtrl.js"></script>
 
-    
-    <script src="Assets/js/app.js"></script>
+    <!--           Assets           -->
     <script src="Assets/js/axios.min.js"></script>
     <script src="Assets/js/bootstrap.bundle.min.js"></script>
+    <script src="Assets/js/app.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Sze 17. 11:41
+-- Létrehozás ideje: 2024. Sze 17. 12:27
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -27,10 +27,9 @@ SET time_zone = "+00:00";
 -- Tábla szerkezet ehhez a táblához `categories`
 --
 
-CREATE TABLE IF NOT EXISTS `categories` (
+CREATE TABLE `categories` (
   `ID` varchar(40) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`)
+  `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -39,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 -- Tábla szerkezet ehhez a táblához `recipes`
 --
 
-CREATE TABLE IF NOT EXISTS `recipes` (
+CREATE TABLE `recipes` (
   `ID` varchar(40) NOT NULL,
   `catID` varchar(40) NOT NULL,
   `userID` varchar(40) NOT NULL,
@@ -47,10 +46,7 @@ CREATE TABLE IF NOT EXISTS `recipes` (
   `descp` varchar(200) NOT NULL,
   `time` int(30) NOT NULL,
   `additions` varchar(40) NOT NULL,
-  `claory` int(35) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `catID` (`catID`),
-  KEY `userID` (`userID`)
+  `claory` int(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 -- --------------------------------------------------------
@@ -59,16 +55,39 @@ CREATE TABLE IF NOT EXISTS `recipes` (
 -- Tábla szerkezet ehhez a táblához `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `ID` varchar(40) NOT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(40) NOT NULL,
   `passwd` varchar(40) NOT NULL,
   `phone` varchar(40) NOT NULL,
   `role` varchar(40) NOT NULL,
-  `status` varchar(40) NOT NULL,
-  PRIMARY KEY (`ID`)
+  `status` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- Indexek a kiírt táblákhoz
+--
+
+--
+-- A tábla indexei `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- A tábla indexei `recipes`
+--
+ALTER TABLE `recipes`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `catID` (`catID`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- A tábla indexei `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Megkötések a kiírt táblákhoz

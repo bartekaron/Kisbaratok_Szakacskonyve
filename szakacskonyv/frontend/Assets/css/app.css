@@ -1,0 +1,15 @@
+header{
+    font-size: 250%;
+    text-align: center;
+    line-height: 150px;
+}
+hr{
+    border-style: dashed;
+}
+
+footer{
+    text-align: center;
+    font-size: 80%;
+    letter-spacing: 3px;
+    line-height: 60px;
+}
