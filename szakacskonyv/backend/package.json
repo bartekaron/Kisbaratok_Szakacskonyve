@@ -4,8 +4,10 @@
   "description": "Testvérek össze fognak",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev" : "nodemon server"
+    
+
   },
   "keywords": [
     "road",
@@ -21,5 +23,11 @@
     "express": "^4.21.0",
     "mysql": "^2.18.1",
     "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
+
+
+  
 }
