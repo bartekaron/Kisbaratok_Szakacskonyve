@@ -104,7 +104,6 @@ app.post('/log', (req, res) => {
         res.status(202).send(results);
         return;
     });
-    
 });
 
 
@@ -127,7 +126,4 @@ GET /users/:id -
 PATCH /passmod/:Id - jelszóváltoztatás
 DELETE /users/:id - adott idjű user törlése (admin)
 
-
-
-
-*/ 
+*/

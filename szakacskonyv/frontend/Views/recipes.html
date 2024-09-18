@@ -4,7 +4,23 @@
 
     <h4>Kategóriák</h4>
     <select class="form-select form-select-lg mb-3" aria-label="Kategóriák">
+        <!-- Kategoriák itt-->
     </select>
     <hr>
-    
+
+    <div id="recipe-form" class="mb-3" style="display: none;">
+        <h4>Új recept hozzáadása</h4>
+        <form id="add-recipe-form">
+            <input type="text" id="title" placeholder="Cím" required class="form-control mb-2">
+            <textarea id="description" placeholder="Leírás" required class="form-control mb-2"></textarea>
+            <input type="text" id="time" placeholder="Elkészítési idő" required class="form-control mb-2">
+            <input type="text" id="additions" placeholder="Hozzávalók" required class="form-control mb-2">
+            <input type="number" id="calorie" placeholder="Kalória" required class="form-control mb-2">
+            <button type="submit" class="btn btn-primary">Recept hozzáadása</button>
+        </form>
+    </div>
+
+    <div id="recipes-list">
+        <!-- Receptek itt   -->
+    </div>
 </div>

@@ -2,20 +2,24 @@
     <h3>Saját Profil</h3>
     <hr>    
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="Varga János">
+        <input type="text" class="form-control" id="name" placeholder="Név" />
         <label for="name">Név</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" placeholder="jani@jani.jani">
+        <input type="email" class="form-control" id="email" placeholder="E-mail cím" />
         <label for="email">E-mail cím</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="passwd" placeholder="">
+        <input type="tel" class="form-control" id="phone" placeholder="Telefonszám" />
+        <label for="phone">Telefonszám</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="passwd" placeholder="Jelszó" />
         <label for="passwd">Jelszó</label>  
     </div>
     <div class="form-floating mb-3">
-        <input type="tel" class="form-control" id="phone" placeholder="30 70 420 769">
-        <label for="phone">Telefonszám</small></label>
+        <input type="password" class="form-control" id="confirm" placeholder="Jelszó megerősítése" />
+        <label for="confirm">Jelszó megerősítése</label>
     </div>
-    <button class="btn btn-primary mb-3" onclick="updateProfile()">Fissít</button>
+    <button class="btn btn-primary mb-3" onclick="UpdateProfile()">Frissít</button>
 </div>
