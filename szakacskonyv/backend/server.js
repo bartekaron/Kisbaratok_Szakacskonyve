@@ -92,7 +92,7 @@ app.post('/log', (req, res) => {
         return;
     }
 
-    pool.query(`SELECT ID, name, email, phone, role, status FROM users WHERE email = '${req.body.email}' AND passwd = '${CryptoJS(req.body.passwd)}'`, (err, results) => {
+    pool.query(`SELECT ID, name, email, phone, role, status FROM users WHERE email = '${req.body.email}' AND passwd = '${CryptoJS.SHA1(req.body.passwd)}'`, (err, results) => {
         if(err){
             res.status(500).send("Hiba történt az adatbázis lekérés közben!");
             return;
@@ -104,7 +104,7 @@ app.post('/log', (req, res) => {
         res.status(202).send(results);
         return;
     });
-
+    
 });
 
 
