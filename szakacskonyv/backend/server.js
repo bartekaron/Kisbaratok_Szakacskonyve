@@ -177,7 +177,7 @@ app.patch('/users/:id', logincheck, (req, res) => {
         return;
     }
 
-    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}' WHERE ID='${req.params.id}', role='${req.body.role}'`, (err, results) => {
+    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}', role='${req.body.role}' WHERE ID='${req.params.id}'`, (err, results) => {
         if(err){
             res.status(500).send('Hiba történt az adatbázis elérése közben!');
             return;
