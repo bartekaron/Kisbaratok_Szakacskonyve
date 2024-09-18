@@ -13,13 +13,23 @@
         <input type="tel" class="form-control" id="phone" placeholder="Telefonszám" />
         <label for="phone">Telefonszám</label>
     </div>
+    <button class="btn btn-primary mb-3" onclick="UpdateProfile()">Frissít</button>
+    <br>
+    <br>
+    <br>
+    <h3>Jelszó módosítás</h3>
+    <hr>
     <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="passwd" placeholder="Jelszó" />
-        <label for="passwd">Jelszó</label>  
+        <input type="password" class="form-control" id="oldPasswd" placeholder="Jelszó" />
+        <label for="oldPasswd">Régi Jelszó</label>  
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="newPasswd" placeholder="Jelszó" />
+        <label for="newPasswd">Jelszó</label>  
     </div>
     <div class="form-floating mb-3">
         <input type="password" class="form-control" id="confirm" placeholder="Jelszó megerősítése" />
         <label for="confirm">Jelszó megerősítése</label>
     </div>
-    <button class="btn btn-primary mb-3" onclick="UpdateProfile()">Frissít</button>
+    <button class="btn btn-primary mb-3" onclick="UpdatePasswd()">Módosít</button>
 </div>

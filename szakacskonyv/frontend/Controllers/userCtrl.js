@@ -82,7 +82,7 @@ function deleteUser(ID){
 //Frissíti
 function updateUser(ID){
     let data = {
-        name: document.querySelector('#name').value,
+        name: document.querySelector/*nyaldmeg a haloween-i tököm*/('#name').value,
         email: document.querySelector('#email').value,
         phone: document.querySelector('#phone').value,
         role: document.querySelector('#role').value
@@ -156,4 +156,23 @@ function renderUsers(users){
 
     let total = document.querySelector('strong')
     total.innerHTML = users.length
+}
+
+// Password change
+function UpdatePasswd(){
+    let data = {
+        oldPasswd: document.querySelector('#oldPasswd').value,
+        newPasswd: document.querySelector('#newPasswd').value,
+        confirm: document.querySelector('#confirm').value
+    }
+
+    axios.patch(`${serverUrl}/passmod/${loggedUser[0].ID}`, data, authorize()).then(res => {
+        alert(res.data);
+
+        if (res.status == 200){
+            document.querySelector('#oldPasswd').value = "";
+            document.querySelector('#newPasswd').value = "";
+            document.querySelector('#confirm').value = "";
+        }
+    });
 }
