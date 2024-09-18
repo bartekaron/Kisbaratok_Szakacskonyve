@@ -231,7 +231,7 @@ app.patch('/passmod/:id', (req, res) => {
         }
 
 
-        pool.query(`UPGRADE users SET passwd=SHA1('${req.body.newpass}') WHERE ID = '${req.params.id}'`, (err, results) => {
+        pool.query(`UPDATE users SET passwd=SHA1('${req.body.newpass}') WHERE ID='${req.params.id}'`, (err, results) => {
             if(err){
                 res.status(500).send('Hiba történt az adatbázis elérése közben!');
                 return;
@@ -252,7 +252,7 @@ app.patch('/passmod/:id', (req, res) => {
     
 
 
-})
+});
 
 
 // MIDDLEWARE functions
