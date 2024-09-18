@@ -166,13 +166,14 @@ app.get('/users/:id', admincheck, (req, res) => {
 
 });
 // id alapján kisbarát adatának módosítása
-app.patch('/users/:id', logincheck, (req, res) => {
+app.patch('/users/:id', /*logincheck,*/ (req, res) => {
+    console.log(req.body);
     if(!req.params.id){
         res.status(203).send('Hiányzó azonosító!');
         return;
     }
 
-    if(!req.body.name || !req.body.email || !req.body.phone || !req.body.role){
+    if(!req.body.name || !req.body.email || !req.body.role){
         res.status(203).send('Hiányzó adatok!');
         return;
     }

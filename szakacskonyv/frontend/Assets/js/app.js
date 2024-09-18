@@ -15,6 +15,7 @@ async function render(view){
             getUsers()
             break
         }
+       
     }
 }
 //Ez csak egy if else mert ha bevan jelentkeze akkor nagyon fasza gyerek

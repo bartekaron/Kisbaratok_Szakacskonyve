@@ -82,13 +82,14 @@ function deleteUser(ID){
 //Frissíti
 function updateUser(ID){
     let data = {
-        name: document.querySelectorAll('#name').value,
-        email: document.querySelectorAll('#email').value,
-        phone: document.querySelectorAll('#phone').value,
-        passwd: document.querySelectorAll('#role').value
+        name: document.querySelector('#name').value,
+        email: document.querySelector('#email').value,
+        phone: document.querySelector('#phone').value,
+        role: document.querySelector('#role').value
     }
+    console.log(data);
     if(document.querySelector('#phone').value.length == 0){
-        data.phone = "" 
+        data.phone = "";
     }
     axios.patch(`${serverUrl}/users/${ID}`, data, authorize()).then(res => {
         alert(res.data)
