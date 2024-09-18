@@ -87,6 +87,9 @@ function updateUser(ID){
         phone: document.querySelectorAll('#phone').value,
         passwd: document.querySelectorAll('#role').value
     }
+    if(document.querySelector('#phone').value.length == 0){
+        data.phone = "" 
+    }
     axios.patch(`${serverUrl}/users/${ID}`, data, authorize()).then(res => {
         alert(res.data)
         if (res.status == 200){
@@ -94,7 +97,7 @@ function updateUser(ID){
         }
     })
 }
-//
+
 function editUser(ID){
     render('edituser').then(()=>{
             axios.get(`${serverUrl}/users/${ID}`, authorize()).then(res => {
@@ -129,9 +132,9 @@ function renderUsers(users){
         if (user.ID != loggedUser[0].ID){
             let btn1 = document.createElement('button')
             let btn2 = document.createElement('button')
-            btn1.innerHTML = 'Edit'
+            btn1.innerHTML = 'Módosítás'
             btn1.classList.add('btn','btn-warning', 'btn-sm', 'me-2')
-            btn2.innerHTML = 'Delete'
+            btn2.innerHTML = 'Törlés'
             btn2.classList.add('btn','btn-danger', 'btn-sm')
             td6.classList.add('text-end')
             btn1.onclick = function() {editUser(user.ID)}

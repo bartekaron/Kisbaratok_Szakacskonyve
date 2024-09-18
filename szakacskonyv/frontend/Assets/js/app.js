@@ -20,7 +20,7 @@ async function render(view){
 //Ez csak egy if else mert ha bevan jelentkeze akkor nagyon fasza gyerek
 if (localStorage.getItem(/*Ő a fiad ->*/'receptEmber'  )){
     loggedUser = JSON.parse(localStorage.getItem('receptEmber'))
-    render('recipie')
+    render('recipes')
 }else{
     render('login')
 }
@@ -47,7 +47,7 @@ function renderNavItems(){
     //ha igen
 
         //ha én vagyok az admin
-    if (loggedUser.role == 'admin'){
+    if (loggedUser[0].role == 'admin'){
         admNavItems.forEach(item => {
             item.classList.remove('d-none')
         })
