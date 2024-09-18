@@ -84,14 +84,15 @@ app.post('/reg', (req, res) => {
 
 
 });
-
+ // bejelentkezés
 app.post('/log', (req, res) => {
 
+    //nincs email vagy jelszó akkor gg    
     if(!req.body.email || !req.body.passwd){
         res.status(203).send("Hiánnyzó adatok!");
         return;
     }
-
+    
     pool.query(`SELECT ID, name, email, phone, role, status FROM users WHERE email = '${req.body.email}' AND passwd = '${CryptoJS.SHA1(req.body.passwd)}'`, (err, results) => {
         if(err){
             res.status(500).send("Hiba történt az adatbázis lekérés közben!");
@@ -105,8 +106,181 @@ app.post('/log', (req, res) => {
         return;
     });
 });
+ // felhasználó saját adatainak beszerzése
+app.get('/me/:id', logincheck, (req, res) => {
+    // nincs id akkor gg
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonósitó');
+        return;
+    }
+
+    pool.query(`SELECT name, email, phone, role FROM users WHERE ID='${req.params.id}'`, (err, results) => {
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis elérése közben!');
+            return;
+        }
+        if(results.length == 0){
+            res.status(203).send('Hibás azonosító!');
+            return;
+        }
+
+        res.status(200).send(results);
+        return;
+
+    });
+
+});
+// összes kisbarát adatainak bebúrása (ADMIN)
+app.get('/users', admincheck, (req, res) => {
+    pool.query(`SELECT ID, name, email, phone, role FROM users`, (err, results) => {
+    if(err){
+        res.status(500).send('Hiba történt az adatbázis elérése közben!');
+        return;
+    }
+    res.status(200).send(results);
+    return;
+
+    });
+
+})
+// id alapján kisbarát kiválasztása (ADMIN)
+app.get('/users/:id', admincheck, (req, res) => {
+    //nincs id akkor gg
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonosító');
+        return;
+    }
+
+    pool.query(`SELECT name, email, phone, role FROM users WHERE ID='${req.params.id}'`, (err, results) => {
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis elérése közben!');
+            return;
+        }
+        if(results.length == 0) {
+            res.status(203).send('Hiányzó azonosító!');
+            return;
+        }
+        res.status(202).send(results);
+        return;
+    });
+
+});
+
+app.patch('/users/:id', logincheck, (req, res) => {
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonosító!');
+        return;
+    }
+
+    if(!req.body.name || !req.body.email || !req.body.phone){
+        res.status(203).send('Hiányzó adatok!');
+        return;
+    }
+
+    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}' WHERE ID='${req.params.id}'`, (err, results) => {
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis elérése közben!');
+            return;
+        }
+        if(results.affectedRows == 0){
+            res.status(203).send('Hibás azonosító!');
+            return;
+        }
+
+        res.status(200).send('Sikeres módosítás!');
+        return;
+    });
+
+});
+
+app.patch('/passmod/:id', (req, res) => {
+    if(!req.params.id){
+        res.status(203).send('Hibás azonosító!');
+        return;
+    }
+
+    if(!req.body.oldpass || !req.body.newpass || !req.body.confirm){
+        res.status(203).send('Hiányzó adatok!');
+        return;
+    }
+
+    if(req.body.newpass != req.body.confirm){
+        res.status(203).send('A jelszavak nem egyeznek!');
+        return;
+    }
+
+    if(!req.body.newpass.match(passwdReg)){
+        res.status(203).send('Az új jelszó nem felel meg a követelményeknek!');
+        return;
+    }
+
+    pool.query(`SELECT passwd FROM users WHERE ID='${req.params.id}'`, (err, results) => {
+        if(err){
+            res.status(500).send('Hiba az adatbázis elérése közben!');
+            return;
+        }
+        if(results.length == 0){
+            res.status(203).send('Hibás azonosító!');
+            return;
+        }
+
+    });
+    
 
 
+})
+
+
+// MIDDLEWARE functions
+
+
+// bejelentkezés (legyé bejelentkezve különben kapod)
+
+function logincheck(req, res, next) {
+    let token = req.header('Authorization');
+    if(!token) {
+        res.status(400).send('Jelentkezz be!');
+        return;
+    }
+
+    pool.query(`SELECT * FROM users WHERE ID='${token}'`, (err, results) => {
+        if(results.length == 0){
+            res.status(400).send('Hibás autentikáció!');
+        }   
+        next();
+    });
+
+    return;
+}
+
+// jogosultság ellenőrzése (admin vagy nem)
+function admincheck(req, res, next){
+    let token = req.header('Authorization');
+    if(!token) {
+        res.status(400).send('Jelentkezz be');
+        return;
+    }
+
+    pool.query(`SELECT role FROM users WHERE ID='${token}'`, (err, results) => {
+        if(results.length == 0){
+            res.status(400).send('Hibás autentikáció!');
+            return;
+        }
+        if(results[0].role != 'admin'){
+            res.status(400).send('Nincs jogod!');
+            return;
+        }
+        next();
+
+
+    });
+    return;
+
+}
+
+
+
+//sunyin hallgatózik
 
 app.listen(port, () => {
     console.log(`Server is listening on port '${port}'`);
