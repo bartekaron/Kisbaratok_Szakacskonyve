@@ -165,19 +165,19 @@ app.get('/users/:id', admincheck, (req, res) => {
     });
 
 });
-
+// id alapján kisbarát adatának módosítása
 app.patch('/users/:id', logincheck, (req, res) => {
     if(!req.params.id){
         res.status(203).send('Hiányzó azonosító!');
         return;
     }
 
-    if(!req.body.name || !req.body.email || !req.body.phone){
+    if(!req.body.name || !req.body.email || !req.body.phone || !req.body.role){
         res.status(203).send('Hiányzó adatok!');
         return;
     }
 
-    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}' WHERE ID='${req.params.id}'`, (err, results) => {
+    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}' WHERE ID='${req.params.id}', role='${req.body.role}'`, (err, results) => {
         if(err){
             res.status(500).send('Hiba történt az adatbázis elérése közben!');
             return;
@@ -192,28 +192,28 @@ app.patch('/users/:id', logincheck, (req, res) => {
     });
 
 });
-
+// id alapján kisbarát jelszavának módosítása
 app.patch('/passmod/:id', (req, res) => {
     if(!req.params.id){
         res.status(203).send('Hibás azonosító!');
         return;
     }
-
+    // van-e régi jelszó, új jelszó, új jelszó megerősítése
     if(!req.body.oldpass || !req.body.newpass || !req.body.confirm){
         res.status(203).send('Hiányzó adatok!');
         return;
     }
-
+    //új jelszó megyegyezik-e a megerősítéses jelszóval
     if(req.body.newpass != req.body.confirm){
         res.status(203).send('A jelszavak nem egyeznek!');
         return;
     }
-
+    //regexel kisbarát-e az új jelszó
     if(!req.body.newpass.match(passwdReg)){
         res.status(203).send('Az új jelszó nem felel meg a követelményeknek!');
         return;
     }
-
+    // jó-e a korábban megadott jelszó
     pool.query(`SELECT passwd FROM users WHERE ID='${req.params.id}'`, (err, results) => {
         if(err){
             res.status(500).send('Hiba az adatbázis elérése közben!');
@@ -223,6 +223,29 @@ app.patch('/passmod/:id', (req, res) => {
             res.status(203).send('Hibás azonosító!');
             return;
         }
+        // régi jelszó megegyezik-e a régivel titkosmikkentyűzve
+        if(results[0].passwd != CryptoJS.SHA1(req.body.oldpass)){
+            res.status(203).send('A jelenlegi jelszó nem megfelelő!');
+            return;
+        }
+
+
+        pool.query(`UPGRADE users SET passwd=SHA1('${req.body.newpass}') WHERE ID = '${req.params.id}'`, (err, results) => {
+            if(err){
+                res.status(500).send('Hiba történt az adatbázis elérése közben!');
+                return;
+            }
+            if(results.affectedRows == 0){
+                res.status(203).send('Hibás az azonosító!');
+                return;
+            }
+
+            res.status(200).send('Sikeres jelszó módosítás!');
+            return;
+
+
+        });
+
 
     });
     
