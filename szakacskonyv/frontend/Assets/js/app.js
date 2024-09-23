@@ -26,7 +26,7 @@ if (localStorage.getItem(/*Ő a fiad ->*/'receptEmber'  )){
     render('login')
 }
 
-//Ez a nav itemek változgatja, ha ez nem esett volna le a névből te büüüdös NOOB
+//Ez a nav itemeket változgatja, ha ez nem esett volna le a névből te büüüdös NOOB
 function renderNavItems(){
     let lgdOutNavItems = document.querySelectorAll('.lgdOut')
     let lgdInNavItems = document.querySelectorAll('.lgdIn')
