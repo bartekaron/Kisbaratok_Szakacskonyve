@@ -31,7 +31,7 @@ function login(){
         renderNavItems()
         render('recipes')
         //EZ itt a mester munkám olyan Super Sonic Racing gyorsasággal ki loginoltat hogy észre se veszed
-        if(!loggedUser.status){
+        if(!loggedUser[0].status){
             logout()
             alert('Lejárt az előfizetésed!')
         }
