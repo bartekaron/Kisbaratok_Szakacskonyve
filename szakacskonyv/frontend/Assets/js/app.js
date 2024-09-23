@@ -15,6 +15,10 @@ async function render(view){
             getUsers()
             break
         }
+        case 'recipes': {
+            categoryLoad();
+            break;
+        }
        
     }
 }
