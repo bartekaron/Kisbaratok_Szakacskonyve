@@ -13,22 +13,21 @@ function categoryAdd(){
 }
 
 function categoryLoad(){
-    const kategoriak = [];
+    
+    let kategoriak = [];
     const categorySelector = document.querySelector('#categorySelector');
     
-    axios.get(`${serverUrl}/categories`, authorize()).then(res => { 
-        console.log(res.data);
-        //kategoriak.push(res.data);
-        //alert(res.data);
-    });
-
-    for (let i = 0; i < kategoriak.length; i++) {
-        const option = document.createElement('option');
-        option.value = i.ID;
-        option.text = i.name;
-        categorySelector.appendChild(option);
+    axios.get(`${serverUrl}/categories`, authorize()).then(res => {
+        kategoriak = res.data; // Assign the array directly
+        console.log(kategoriak);
         
-    }
+        for (let i = 0; i < kategoriak.length; i++) {
+            const option = document.createElement('option');
+            option.value = kategoriak[i].ID;
+            option.text = kategoriak[i].name;
+            categorySelector.appendChild(option);
+        }
+    });
 
 }
 
@@ -42,6 +41,6 @@ function categoryLoad(){
 
 */ 
 
-categoryLoad();
+
 
 
