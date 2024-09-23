@@ -30,6 +30,11 @@ function login(){
         localStorage.setItem('receptEmber', JSON.stringify(loggedUser))
         renderNavItems()
         render('recipes')
+        //EZ itt a mester munkám olyan Super Sonic Racing gyorsasággal ki loginoltat hogy észre se veszed
+        if(!loggedUser.status){
+            logout()
+            alert('Lejárt az előfizetésed!')
+        }
     })
 }
 // Kilépsz 10/10es marha
@@ -85,11 +90,12 @@ function updateUser(ID){
         name: document.querySelector/*nyaldmeg a haloween-i tököm*/('#name').value,
         email: document.querySelector('#email').value,
         phone: document.querySelector('#phone').value,
-        role: document.querySelector('#role').value
+        role: document.querySelector('#role').value,
+        status: document.querySelector('#status').value
     }
     console.log(data);
     if(document.querySelector('#phone').value.length == 0){
-        data.phone = "";
+        data.phone = ""
     }
     axios.patch(`${serverUrl}/users/${ID}`, data, authorize()).then(res => {
         alert(res.data)
@@ -106,6 +112,7 @@ function editUser(ID){
                 document.querySelector('#email').value = res.data[0].email
                 document.querySelector('#phone').value = res.data[0].phone
                 document.querySelector('#role').value = res.data[0].role
+                document.querySelector('#status').value = res.data[0].status
                 document.querySelector('#updBtn').onclick = function() {updateUser(ID)}
             })
         })
@@ -123,12 +130,14 @@ function renderUsers(users){
         let td4 = document.createElement('td')
         let td5 = document.createElement('td')
         let td6 = document.createElement('td')
+        let td7 = document.createElement('td')
         
         td1.innerHTML = '#'
         td2.innerHTML = user.name
         td3.innerHTML = user.email
         td4.innerHTML = user.phone
         td5.innerHTML = user.role
+        td6.innerHTML = user.status
         
         if (user.ID != loggedUser[0].ID){
             let btn1 = document.createElement('button')
@@ -137,11 +146,11 @@ function renderUsers(users){
             btn1.classList.add('btn','btn-warning', 'btn-sm', 'me-2')
             btn2.innerHTML = 'Törlés'
             btn2.classList.add('btn','btn-danger', 'btn-sm')
-            td6.classList.add('text-end')
+            td7.classList.add('text-end')
             btn1.onclick = function() {editUser(user.ID)}
             btn2.onclick = function() {deleteUser(user.ID)}
-            td6.appendChild(btn1)
-            td6.appendChild(btn2)   
+            td7.appendChild(btn1)
+            td7.appendChild(btn2)   
         }
 
         tr.appendChild(td1)
@@ -150,6 +159,7 @@ function renderUsers(users){
         tr.appendChild(td4)
         tr.appendChild(td5)
         tr.appendChild(td6)
+        tr.appendChild(td7)
 
         tbody.appendChild(tr)
     })
