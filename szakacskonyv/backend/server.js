@@ -253,6 +253,33 @@ app.patch('/passmod/:id', (req, res) => {
 
 
 });
+// felhasználó törlése id alapján
+
+app.delete('/users/:id', (req, res) => {
+
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonosító!');
+        return;
+    }
+
+    pool.query(`DELETE FROM users WHERE ID='${req.params.id}'`, (err, results) => {
+
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis lekérése közben!');
+            return;
+        }
+
+        if(results.affectedRows == 0){
+            res.status(203).send('Hibás az azonosító!');
+            return;
+        }
+
+        res.status(200).send('Felhasználó törölve!');
+        return;
+
+    });
+
+});
 
 
 // MIDDLEWARE functions
@@ -321,6 +348,7 @@ POST /login - user belépés
 GET /me - bejelentkezett felhasználó adatai
 GET /users - felhasználók listája (admin)
 GET /users/:id - 
+PATCH /users/:id - felhasználó adatainak módosítása
 PATCH /passmod/:Id - jelszóváltoztatás
 DELETE /users/:id - adott idjű user törlése (admin)
 
