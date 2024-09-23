@@ -346,7 +346,7 @@ app.post('/category', (req, res) => {
         return;
     });
 });
-
+//Összes recept
 app.get('/recipes', (req, res) => {
     pool.query(`SELECT ID, catID, userID, title, descp, time, additions, calorie FROM recipes`, (err, results) => {
     if(err){
@@ -357,7 +357,7 @@ app.get('/recipes', (req, res) => {
     return;
     });
 })
-
+//Recept hozzáadás
 app.post('/addRecipe', (req, res) => {
     const { catID, userID, title, descp, time, additions, calorie } = req.body;
     const query = `INSERT INTO recipes (ID, catID, userID, title, descp, time, additions, calorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
@@ -372,6 +372,17 @@ app.post('/addRecipe', (req, res) => {
         res.status(201).send('Recept sikeresen hozzáadva!');
     });
 });
+
+app.get('/categories', (req, res) => {
+    pool.query(`SELECT ID, name FROM categories`, (err, results) => {
+    if(err){
+        res.status(500).send('Hiba történt az adatbázis elérése közben!');
+        return;
+    }
+    res.status(200).send(results);
+    return;
+    });
+})
 
 
 //sunyin hallgatózik
