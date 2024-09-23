@@ -343,9 +343,35 @@ app.post('/category', (req, res) => {
             return;
         }
         res.status(200).send('Kategória sikeresen hozzáadva');
+        return;
     });
 });
 
+app.get('/recipes', (req, res) => {
+    pool.query(`SELECT ID, catID, userID, title, descp, time, additions, calorie FROM recipes`, (err, results) => {
+    if(err){
+        res.status(500).send('Hiba történt az adatbázis elérése közben!');
+        return;
+    }
+    res.status(200).send(results);
+    return;
+    });
+})
+
+app.post('/addRecipe', (req, res) => {
+    const { catID, userID, title, descp, time, additions, calorie } = req.body;
+    const query = `INSERT INTO recipes (ID, catID, userID, title, descp, time, additions, calorie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const values = [uuid.v4(), catID, userID, title, descp, time, additions, calorie];
+    
+    pool.query(query, values, (err, results) => {
+        if (err) {
+            console.error(err); // Naplózza a hibát
+            res.status(500).send('Hiba történt az adatbázis elérése közben!');
+            return;
+        }
+        res.status(201).send('Recept sikeresen hozzáadva!');
+    });
+});
 
 
 //sunyin hallgatózik
