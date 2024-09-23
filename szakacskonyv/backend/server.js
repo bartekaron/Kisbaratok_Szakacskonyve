@@ -329,6 +329,23 @@ function admincheck(req, res, next){
 
 }
 
+// Kategória hozzáadása
+app.post('/category', (req, res) => {
+    if (!req.body.name) {
+        res.status(400).send('A kategória neve kötelező');
+        return;
+    }
+    const categoryId = uuid.v4();
+    const categoryName = req.body.name;
+    pool.query('INSERT INTO categories (id, name) VALUES (?, ?)', [categoryId, categoryName], (err, results) => {
+        if (err) {
+            res.status(500).send('Hiba történt a kategória hozzáadása során');
+            return;
+        }
+        res.status(200).send('Kategória sikeresen hozzáadva');
+    });
+});
+
 
 
 //sunyin hallgatózik
