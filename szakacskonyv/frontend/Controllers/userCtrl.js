@@ -161,18 +161,18 @@ function renderUsers(users){
 // Password change
 function UpdatePasswd(){
     let data = {
-        oldPasswd: document.querySelector('#oldPasswd').value,
-        newPasswd: document.querySelector('#newPasswd').value,
+        oldpass: document.querySelector('#oldPasswd').value,
+        newpass: document.querySelector('#newPasswd').value,
         confirm: document.querySelector('#confirm').value
     }
 
     axios.patch(`${serverUrl}/passmod/${loggedUser[0].ID}`, data, authorize()).then(res => {
-        alert(res.data);
+        alert(res.data)
 
         if (res.status == 200){
-            document.querySelector('#oldPasswd').value = "";
-            document.querySelector('#newPasswd').value = "";
-            document.querySelector('#confirm').value = "";
+            document.querySelector('#oldPasswd').value = ""
+            document.querySelector('#newPasswd').value = ""
+            document.querySelector('#confirm').value = ""
         }
     });
 }
