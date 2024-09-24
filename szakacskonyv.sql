@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Sze 18. 11:35
+-- Létrehozás ideje: 2024. Sze 24. 09:08
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -32,6 +32,24 @@ CREATE TABLE `categories` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
+--
+-- A tábla adatainak kiíratása `categories`
+--
+
+INSERT INTO `categories` (`ID`, `name`) VALUES
+('fe283a27-1a93-4d85-bd43-59326070e76c', 'Leves');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `images`
+--
+
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `filename` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -46,8 +64,16 @@ CREATE TABLE `recipes` (
   `descp` varchar(200) NOT NULL,
   `time` int(30) NOT NULL,
   `additions` varchar(40) NOT NULL,
-  `calorie` int(35) NOT NULL
+  `calorie` int(35) NOT NULL,
+  `imgID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `recipes`
+--
+
+INSERT INTO `recipes` (`ID`, `catID`, `userID`, `title`, `descp`, `time`, `additions`, `calorie`, `imgID`) VALUES
+('e479d135-f833-46bd-a2d2-9e0966926dc1', 'fe283a27-1a93-4d85-bd43-59326070e76c', 'ca5699c3-da27-41bb-b296-c6f6378f72a1', 'Gáspár Leves', 'MILYEN CSODÁS EZ A NAP!', 360, 'víz, Gáspár', 20000000, 0);
 
 -- --------------------------------------------------------
 
@@ -70,9 +96,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `name`, `email`, `passwd`, `phone`, `role`, `status`) VALUES
-('40a93301-4735-486f-be00-fcdb31758ac7', 'Admin', 'admin@admin.admin', '2b12e1a2252d642c09f640b63ed35dcc5690464a', '36302076986', 'admin', 'true'),
-('6bb8b886-1891-4f20-8bdd-d57e6e13b51c', 'Jani', 'jani@jani.jani', '84d07dd52fdd08a11fb6f0a383ae5d2b16943a35', '', 'user', 'true'),
-('a7a03ee9-bdf6-4e54-bad3-12e06d571314', 'undefined', 'undefined', '7333ece0972560aefbad2a7260aad81ecbe89de2', 'undefined', 'undefined', 'true');
+('ca5699c3-da27-41bb-b296-c6f6378f72a1', 'Gáspár Laci', 'gaspar.laci@gmail.com', '3b971765a4a961802c4a04e3c11a0e3e2f1a02a5', '06302143000', 'user', 'true'),
+('ef1707de-6f1b-4213-8507-086b29fd71cd', 'Gáspár Győzike', 'gaspar.gyozo@citromail.com', '7084729dc0518b0d00df162f765d47f6c5f11dab', '06701231234', 'user', 'false'),
+('fdc59140-e825-4eba-9667-ec8de9995aa7', 'Admin', 'admin@admin.admin', '3dae2b74a8d6a899b3d51c0795fdaf3f2b76e9eb', '', 'admin', 'true');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -85,12 +111,19 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- A tábla indexei `images`
+--
+ALTER TABLE `images`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- A tábla indexei `recipes`
 --
 ALTER TABLE `recipes`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `catID` (`catID`),
-  ADD KEY `userID` (`userID`);
+  ADD KEY `userID` (`userID`),
+  ADD KEY `imgID` (`imgID`);
 
 --
 -- A tábla indexei `users`
@@ -99,8 +132,24 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- A kiírt táblák AUTO_INCREMENT értéke
+--
+
+--
+-- AUTO_INCREMENT a táblához `images`
+--
+ALTER TABLE `images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- Megkötések a kiírt táblákhoz
 --
+
+--
+-- Megkötések a táblához `images`
+--
+ALTER TABLE `images`
+  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`id`) REFERENCES `recipes` (`imgID`);
 
 --
 -- Megkötések a táblához `recipes`
