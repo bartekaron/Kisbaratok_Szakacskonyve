@@ -381,6 +381,42 @@ app.post('/addRecipe', (req, res) => {
     {
         res.status(203).send('Nem lehet 0 a kalória vagy az idő!')
     }
+
+if (!req.files || Object.keys(req.files).length === 0) {
+        console.log('No files were uploaded.');
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    let image = req.files.image;
+    let uploadDir = path.join(__dirname, 'uploads');
+
+    // Ellenőrizd, hogy a könyvtár létezik-e, ha nem, hozd létre
+    if (!fs.existsSync(uploadDir)){
+        fs.mkdirSync(uploadDir);
+    }
+
+    let uploadPath = path.join(uploadDir, image.name);
+
+    image.mv(uploadPath, function(err) {
+        if (err) {
+            console.log('File upload error:', err);
+            return res.status(500).send('Nem sikerölt feltölteni a képet!');
+        }
+
+        // Mentés az adatbázisba
+        pool.query(`INSERT INTO images (filename) VALUES ('${image.name}')`, (err, results) => {
+            if (err) {
+                return res.status(500).send('Hiba történt az adatbázis művelet közben!');
+            }
+            res.send('File uploaded and saved to database!');
+        });
+    });
+
+
+
+
+
+
     pool.query(query, values, (err, results) => {
         if (err) {
             console.error(err); // Naplózza a hibát
@@ -405,7 +441,7 @@ app.get('/categories', (req, res) => {
 
 
 
-app.post('/upload', (req, res) => {
+/*app.post('/upload', (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         console.log('No files were uploaded.');
         return res.status(400).send('No files were uploaded.');
@@ -435,7 +471,7 @@ app.post('/upload', (req, res) => {
             res.send('File uploaded and saved to database!');
         });
     });
-});
+});*/
 
 
 //sunyin hallgatózik

@@ -1,0 +1,38 @@
+<div class="p-3">
+    <h3>Recept feltöltés</h3>
+    <hr> 
+    <h4>Kategóriák</h4>
+    <select class="form-select form-select-lg mb-3" aria-label="Kategóriák" id="categoryChoser">
+        <!-- Kategoriák itt-->
+    </select>
+    
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="recipeTitle" placeholder="Leves">
+        <label for="receptTitle">Recept neve</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="recipeDesc" placeholder="A sajt megolvasztva finom">
+        <label for="receptDesc">Recept leírása</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="recipeTime" placeholder="10">
+        <label for="receptTime">Elkészétési idő (perc)</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="recipeAdditions" placeholder="Sajt">
+        <label for="receptAdditions">Hozzávalók</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="recipeCalorie" placeholder="600">
+        <label for="receptCalorie">Kalória mennyiség</label>
+    </div>
+    <form id="uploadForm"  method="post" enctype="multipart/form-data">
+    <input type="file" name="image" accept="image/*">
+    <button class="btn btn-primary mb-3" onclick="recipeAdd()" type="submit">Feltöltés</button>
+    </form>
+    <div id="response"></div>
+    <hr>
+
+
+    
+</div>

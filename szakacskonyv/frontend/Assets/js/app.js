@@ -16,7 +16,11 @@ async function render(view){
             break
         }
         case 'recipes': {
-            categoryLoad();
+            categoryLoad("#categorySelector");
+            break;
+        }
+        case 'addrecipes': {
+            categoryLoad("#categoryChoser");
             break;
         }
        
