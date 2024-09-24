@@ -426,7 +426,7 @@ if (!req.files || Object.keys(req.files).length === 0) {
         res.status(201).send('Recept sikeresen hozzáadva!');
     });
 });
-
+//Összes kategória
 app.get('/categories', (req, res) => {
     pool.query(`SELECT ID, name FROM categories`, (err, results) => {
     if(err){
@@ -437,10 +437,53 @@ app.get('/categories', (req, res) => {
     return;
     });
 })
+//Kategória törlés
+app.delete('/deleteCat/:id', (req, res) =>{
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonosító!');
+        return;
+    }
 
+    pool.query(`DELETE FROM categories WHERE ID='${req.params.id}'`, (err, results) => {
 
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis lekérése közben!');
+            return;
+        }
 
+        if(results.affectedRows == 0){
+            res.status(203).send('Hibás az azonosító!');
+            return;
+        }
 
+        res.status(200).send('Kategória törölve!');
+        return;
+
+    });
+})
+//Kategória módosítása
+app.patch('/changeCat/:id', (req, res) =>{
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonosító!')
+        return;
+    }
+    if(!req.body.name){
+        res.status(203).send('Nem adott meg nevet!')
+    }
+    pool.query(`UPDATE categories SET name = '${req.body.name}' WHERE categories.ID = '${req.params.id}'`, (err, results)=>{    
+    if(err){
+        res.status(500).send('Hiba történt az adatbázis lekérése közben!');
+        return;
+    }
+    if(results.affectedRows == 0){
+        res.status(203).send('Hibás az azonosító!');
+        return;
+    } 
+    res.status(200).send('Kategória módosítva!');
+    return;})
+})
+
+//Kép feltöltés
 /*app.post('/upload', (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         console.log('No files were uploaded.');
@@ -471,7 +514,7 @@ app.get('/categories', (req, res) => {
             res.send('File uploaded and saved to database!');
         });
     });
-});*/
+});
 
 
 //sunyin hallgatózik
