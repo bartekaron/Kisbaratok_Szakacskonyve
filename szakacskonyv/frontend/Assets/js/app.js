@@ -23,6 +23,10 @@ async function render(view){
             categoryLoad("#categoryChoser");
             break;
         }
+        case 'category': {
+            getCategories();
+            break;
+        }
        
     }
 }
