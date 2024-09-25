@@ -7,7 +7,7 @@ function categoryAdd(){
    
     axios.post(`${serverUrl}/category`, data).then(res => {
         alert(res.data);
-        
+       
     });
     getCategories()
         
@@ -46,6 +46,7 @@ function recipeAdd(){
         calorie : document.querySelector('#recipeCalorie').value
     };
     axios.post(`${serverUrl}/addRecipe`, data).then(res => {
+        alert(res.data);
     });
  
 }
@@ -133,13 +134,18 @@ function editCategories(ID){
     
     
 }
+
+let recipesData = [];
+
+// Function to load recipes from the server and populate recipesData
 async function loadRecipes() {
     try {
         const response = await axios.get(`${serverUrl}/recipes`, authorize());
+        recipesData = response.data;  // Populate recipesData with the response data
         const recipesList = document.getElementById('recipes-list');
         recipesList.innerHTML = ''; 
 
-        response.data.forEach(recipe => {
+        recipesData.forEach(recipe => {
             const recipeItem = document.createElement('div');
             recipeItem.className = 'col-md-4 mb-4';
             recipeItem.innerHTML = `
@@ -151,8 +157,8 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
                         ${loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID ? `
-                        <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}');openForm()">Módosít</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
+                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
+                        <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
                         ` : ''}
                     </div>
                 </div>
@@ -163,6 +169,17 @@ async function loadRecipes() {
         console.error('Error loading recipes:', error);
     }
 }
+
+function openForm(recipeID) {
+    const recipe = recipesData.find(r => r.ID === recipeID);
+    document.getElementById("myModify").style.display = "block";
+    document.getElementById("title").value = recipe.title;
+    document.getElementById("description").value = recipe.descp;
+    document.getElementById("time").value = recipe.time;
+    document.getElementById("additions").value = recipe.additions;
+    document.getElementById("calorie").value = recipe.calorie;
+}
+
 
 function deleteRecipe(ID) {
     if (confirm('Tuti?')) {
@@ -182,22 +199,17 @@ function deleteRecipe(ID) {
 
 
     
-function modifyRecipe(ID) {
-      
 
+
+
+function modifyRecipe(ID) {
     console.log('Modify recipe with id:', ID);
 }
    
-function openForm() {
-    document.getElementById("myModify").style.display = "block";
-    //
-    
-
-  }
-  
-  function closeForm() {
+function closeForm() {
     document.getElementById("myModify").style.display = "none";
-  }
+}
     
     
     
+//  <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}');openForm()">Módosít</button>
