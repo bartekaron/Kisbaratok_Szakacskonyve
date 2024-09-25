@@ -1,11 +1,10 @@
 const serverUrl = 'http://localhost:3000'
-let loggedUser = null
+let loggedUser;
 
 async function render(view){
     let main = document.querySelector('main')
     main.innerHTML = await (await fetch(`Views/${view}.html`)).text()
     
-    //Ne félj a switch case-től nem bánt, sőt kisbarátok vagytok! 
     switch(view){
         case 'profile':{
             getMyProfile()
@@ -17,10 +16,15 @@ async function render(view){
         }
         case 'recipes': {
             categoryLoad("#categorySelector");
-            loadRecipes()
+            loadRecipes();
             break;
         }
         case 'addrecipes': {
+            if (!loggedUser) {
+                alert('Kérjük, jelentkezz be a receptek hozzáadásához.');
+                render('login');
+                return;
+            }
             categoryLoad("#categoryChoser");
             break;
         }
@@ -28,16 +32,16 @@ async function render(view){
             getCategories();
             break;
         }
-       
     }
 }
-//Ez csak egy if else mert ha bevan jelentkeze akkor nagyon fasza gyerek
-if (localStorage.getItem(/*Ő a fiad ->*/'receptEmber'  )){
+
+if (localStorage.getItem('receptEmber')){
     loggedUser = JSON.parse(localStorage.getItem('receptEmber'))
     render('recipes')
 }else{
     render('login')
 }
+
 
 //Ez a nav itemeket változgatja, ha ez nem esett volna le a névből te büüüdös NOOB
 function renderNavItems(){

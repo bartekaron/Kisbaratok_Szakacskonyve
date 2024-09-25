@@ -18,7 +18,7 @@ function categoryLoad(ID){
   
     const categorySelector = document.querySelector(ID);
     
-    axios.get(`${serverUrl}/categories`, authorize()).then(res => {
+    axios.get(`${serverUrl}/categories`).then(res => {
         kategoriak = res.data; // Assign the array directly
        
         
@@ -94,7 +94,7 @@ function renderCategories(categories){
 
 
 function getCategories(){
-    axios.get(`${serverUrl}/categories`, authorize()).then(res => {
+    axios.get(`${serverUrl}/categories`).then(res => {
         renderCategories(res.data)
     })
 }
@@ -140,7 +140,7 @@ let recipesData = [];
 // Function to load recipes from the server and populate recipesData
 async function loadRecipes() {
     try {
-        const response = await axios.get(`${serverUrl}/recipes`, authorize());
+        const response = await axios.get(`${serverUrl}/recipes`);
         recipesData = response.data;  // Populate recipesData with the response data
         const recipesList = document.getElementById('recipes-list');
         recipesList.innerHTML = ''; 
@@ -156,7 +156,7 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
-                        ${loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID ? `
+                        ${loggedUser && (loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID) ? `
                         <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
                         <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
                         ` : ''}
@@ -169,7 +169,6 @@ async function loadRecipes() {
         console.error('Error loading recipes:', error);
     }
 }
-
 function openForm(recipeID) {
     const recipe = recipesData.find(r => r.ID === recipeID);
     document.getElementById("myModify").style.display = "block";
