@@ -45,9 +45,7 @@ function recipeAdd(){
         additions : document.querySelector('#recipeAdditions').value,
         calorie : document.querySelector('#recipeCalorie').value
     };
-    console.log(data);
     axios.post(`${serverUrl}/addRecipe`, data).then(res => {
-        console.log(res.data);
     });
  
 }
@@ -153,12 +151,11 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
-                        <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}')">Modify</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe('${recipe.ID}')">Delete</button>
+                        <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}');openForm()">Módosít</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
                     </div>
                 </div>
             `;
-            console.log(recipe.ID);
             recipesList.appendChild(recipeItem);
         });
     } catch (error) {
@@ -167,12 +164,10 @@ async function loadRecipes() {
 }
 
 function deleteRecipe(ID) {
-    console.log(ID);
     if (confirm('Tuti?')) {
         axios.delete(`${serverUrl}/delRecipie/${ID}`, authorize())
             .then(res => {
                 if (res.status === 200) {
-                    console.log('Recipe deleted successfully');
                     loadRecipes();
                 }
             })
@@ -187,10 +182,21 @@ function deleteRecipe(ID) {
 
     
 function modifyRecipe(ID) {
-        
+      
+
     console.log('Modify recipe with id:', ID);
 }
+   
+function openForm() {
+    document.getElementById("myModify").style.display = "block";
+    //
     
+
+  }
+  
+  function closeForm() {
+    document.getElementById("myModify").style.display = "none";
+  }
     
     
     

@@ -10,4 +10,32 @@
     <div class="container mt-5">
         <div id="recipes-list" class="row"></div>
     </div>
+    
+
+
+
+    <div class="form-popup" id="myModify">
+    <form action="/action_page.php" class="form-container">
+        <h1>Módosítás</h1>
+
+        <label for="nev"><p>Név</p></label>
+        <input type="text" placeholder="Add meg a nevét" id="title" required>
+
+        <label for="leiras"><p>Leírás</p></label>
+        <input type="text" placeholder="Add meg a leírást"id="descp" required>
+
+        <label for="ido"><p>Elkészítési idő</p></label>
+        <input type="text" placeholder="Add meg az elkészétési időt" id="time" required>
+
+        <label for="hozzavalok"><p>Hozzávalók</p></label>
+        <input type="text" placeholder="Add meg a hozzávalókat" id="additions" required>
+
+        <label for="kaloria"><p>Kalória</p></label>
+        <input type="text" placeholder="Add meg a kalóriálat" id="calorie" required>
+
+        <button type="submit" class="btn">Módosít</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Bezár</button>
+    </form>
+    </div>
+
 </div>
