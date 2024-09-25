@@ -132,12 +132,15 @@ function renderUsers(users){
         let td6 = document.createElement('td')
         let td7 = document.createElement('td')
         
+
+        console.log(user.status)
         td1.innerHTML = '#'
         td2.innerHTML = user.name
         td3.innerHTML = user.email
         td4.innerHTML = user.phone
         td5.innerHTML = user.role
         td6.innerHTML = user.status
+
         
         if (user.ID != loggedUser[0].ID){
             let btn1 = document.createElement('button')

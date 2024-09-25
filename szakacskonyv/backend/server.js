@@ -345,7 +345,7 @@ app.post('/category', (req, res) => {
             res.status(500).send('Hiba történt a kategória hozzáadása során');
             return;
         }
-        res.status(200).send('Kategória sikeresen hozzáadva');
+            res.status(200).send('Kategória sikeresen hozzáadva');
         return;
     });
 });
@@ -360,6 +360,60 @@ app.get('/recipes', (req, res) => {
     return;
     });
 })
+//Recept Id alapján
+app.get('/recipes/:id', (req, res) => {
+    pool.query(`SELECT ID, catID, userID, title, descp, time, additions, calorie FROM recipes WHERE ID = '${req.params.id}'`, (err, results) => {
+    if(err){
+        res.status(500).send('Hiba történt az adatbázis elérése közben!');
+        return;
+    }
+    res.status(200).send(results);
+    return;
+    });
+})
+app.delete('/delRecipie/:id' , (req,res) =>{
+    pool.query(`DELETE FROM recipes WHERE ID='${req.params.id}'`, (err, results) => {
+
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis lekérése közben!');
+            return;
+        }
+
+        if(results.affectedRows == 0){
+            res.status(203).send('Hibás az azonosító!');
+            return;
+        }
+
+        res.status(200).send('Recept törölve!');
+        return;
+
+    });
+})
+//Recept módosítás
+app.patch('/changeRecipie/:id', (req, res) => {
+    if (!req.body.title || !req.body.descp || !req.body.additions || !req.body.calorie) {
+        res.status(203).send('Nem adott meg valamit!');
+        return;
+    }
+    const query = `
+        UPDATE recipes 
+        SET title = ?, descp = ?, additions = ?, calorie = ? 
+        WHERE ID = ?
+    `;
+    const values = [req.body.title, req.body.descp, req.body.additions, req.body.calorie, req.params.id];
+    
+    pool.query(query, values, (err, results) => {
+        if (err) {
+            res.status(500).send('Hiba történt az adatbázis lekérése közben!');
+            return;
+        }
+        if (results.affectedRows == 0) {
+            res.status(203).send('Hibás az azonosító!');
+            return;
+        }
+        res.status(200).send('Recept módosítva!');
+    });
+});
 //Recept hozzáadás
 app.post('/addRecipe', (req, res) => {
     
