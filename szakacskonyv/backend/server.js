@@ -395,6 +395,17 @@ app.get('/categories', (req, res) => {
     }
     res.status(200).send(results);
     return;
+    })
+});
+//Id alapján kategória
+app.get('/categories/:id', (req, res) => {
+    pool.query(`SELECT ID, name FROM categories WHERE ID='${req.params.id}'`, (err, results) => {
+    if(err){
+        res.status(500).send('Hiba történt az adatbázis elérése közben!');
+        return;
+    }
+    res.status(200).send(results);
+    return;
     });
 })
 //Kategória törlés
