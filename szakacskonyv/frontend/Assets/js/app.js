@@ -16,17 +16,16 @@ async function render(view){
             break
         }
         case 'recipes': {
-            categoryLoad("#categorySelector")
-            loadRecipes()
-            break
+            categoryLoad("#categorySelector");
+            break;
         }
         case 'addrecipes': {
-            categoryLoad("#categoryChoser")
-            break
+            categoryLoad("#categoryChoser");
+            break;
         }
         case 'category': {
-            getCategories()
-            break
+            getCategories();
+            break;
         }
        
     }
@@ -76,6 +75,7 @@ function renderNavItems(){
     })
 }
 
+document.addEventListener('DOMContentLoaded', logout());
 //Megerősítés mert az elég kokszos boxos ❤
 function authorize() {
     let res = {

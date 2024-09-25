@@ -133,12 +133,11 @@ function editCategories(ID){
     
     
 }
-
 async function loadRecipes() {
     try {
         const response = await axios.get(`${serverUrl}/recipes`, authorize());
         const recipesList = document.getElementById('recipes-list');
-        recipesList.innerHTML = '';  // Clear previous recipes
+        recipesList.innerHTML = ''; 
 
         response.data.forEach(recipe => {
             const recipeItem = document.createElement('div');
@@ -151,8 +150,10 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
+                        ${loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID ? `
                         <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}');openForm()">Módosít</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
+                        ` : ''}
                     </div>
                 </div>
             `;
