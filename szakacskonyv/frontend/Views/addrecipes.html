@@ -5,30 +5,20 @@
     <select class="form-select form-select-lg mb-3" aria-label="Kategóriák" id="categoryChoser">
         <!-- Kategoriák itt-->
     </select>
-    
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="recipeTitle" placeholder="Leves">
-        <label for="receptTitle">Recept neve</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="recipeDesc" placeholder="A sajt megolvasztva finom">
-        <label for="receptDesc">Recept leírása</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="recipeTime" placeholder="10">
-        <label for="receptTime">Elkészétési idő (perc)</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="recipeAdditions" placeholder="Sajt">
-        <label for="receptAdditions">Hozzávalók</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="recipeCalorie" placeholder="600">
-        <label for="receptCalorie">Kalória mennyiség</label>
-    </div>
-    <hr>
-    <button class="btn btn-primary mb-3" onclick="recipeAdd()">Feltöltés</button>
    
+   
+    <div id="recipe-form" class="mb-3" >
+        <h4>Új recept hozzáadása</h4>
+        <form id="add-recipe-form">
+            <input type="text" id="recipeTitle" placeholder="Név" required class="form-control mb-3">
+            <textarea id="recipeDesc" placeholder="Leírás" required class="form-control mb-3"></textarea>
+            <input type="number" id="recipeTime" placeholder="Elkészítési idő (perc)" required class="form-control mb-3">
+            <input type="text" id="recipeAdditions" placeholder="Hozzávalók" required class="form-control mb-3">
+            <input type="number" id="recipeCalorie" placeholder="Kalória" required class="form-control mb-3">
+            <button type="submit" class="btn btn-primary" onclick="recipeAdd()">Recept hozzáadása</button>
+        </form>
+    </div>
+
    
 
 

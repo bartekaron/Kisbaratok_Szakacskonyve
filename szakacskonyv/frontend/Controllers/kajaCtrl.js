@@ -137,4 +137,58 @@ function editCategories(ID){
 }
 
 
+// Operation Bölönc 1.1
+async function loadRecipes() {
+    try {
+        const response = await axios.get(`${serverUrl}/recipes`, authorize());
+        const recipesList = document.getElementById('recipes-list');
+        recipesList.innerHTML = '';  // Clear previous recipes
+
+        response.data.forEach(recipe => {
+            const recipeItem = document.createElement('div');
+            recipeItem.className = 'col-md-4 mb-4';
+            recipeItem.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Név:</strong> ${recipe.title}</h5>
+                        <p class="card-text"><strong>Leírás:</strong> ${recipe.descp}</p>
+                        <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
+                        <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
+                        <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
+                        <button class="btn btn-primary btn-sm" onclick="modifyRecipe(${recipe.ID})">Modify</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe(${recipe.ID})">Delete</button>
+                    </div>
+                </div>
+            `;
+            console.log(recipe.ID);
+            recipesList.appendChild(recipeItem);
+        });
+    } catch (error) {
+        console.error('Hiba a receptek betöltésekor:', error);
+    }
+}
+
+function modifyRecipe(ID) {
+    
+    console.log('Modify recipe with id:', ID);
+}
+
+function deleteRecipe(ID) {
+    console.log(ID);
+    if (confirm('Tuti?')) {
+        axios.delete(`${serverUrl}/delRecipie/${ID}`, authorize())
+            .then(res => {
+                if (res.status === 200) {
+                    
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting recipe:', error);
+            });
+    }
+    console.log('Delete recipe with id:', ID);  // Ensure ID is used consistently
+}
+
+
+
 

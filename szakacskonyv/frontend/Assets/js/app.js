@@ -16,16 +16,17 @@ async function render(view){
             break
         }
         case 'recipes': {
-            categoryLoad("#categorySelector");
-            break;
+            categoryLoad("#categorySelector")
+            loadRecipes()
+            break
         }
         case 'addrecipes': {
-            categoryLoad("#categoryChoser");
-            break;
+            categoryLoad("#categoryChoser")
+            break
         }
         case 'category': {
-            getCategories();
-            break;
+            getCategories()
+            break
         }
        
     }
