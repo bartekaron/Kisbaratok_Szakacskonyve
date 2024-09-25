@@ -9,8 +9,8 @@ function categoryAdd(){
         alert(res.data);
         
     });
-
-    
+    getCategories()
+        
 }
 
 function categoryLoad(ID){
@@ -53,6 +53,7 @@ function recipeAdd(){
 }
 
 function renderCategories(categories){
+    
     let tbody = document.querySelector('tbody')
     tbody.innerHTML = ''
 
@@ -103,7 +104,6 @@ function getCategories(){
 function deleteCategories(ID){
     if (confirm('Tuti?')){
         axios.delete(`${serverUrl}/deleteCat/${ID}`, authorize()).then(res => {
-            alert(res.data)
             if (res.status == 200){
                 getCategories()
             }
@@ -121,16 +121,19 @@ function updateCategories(ID){
             render('category')
         }
     })
+    
 }
 
 
-function editCategories(ID){
+function editCategories(ID){    
     render('editcategories').then(()=>{
             axios.get(`${serverUrl}/categories/${ID}`, authorize()).then(res => {
                 document.querySelector('#name').value = res.data[0].name
                 document.querySelector('#updaBtn').onclick = function() {updateCategories(ID)}
             })
-        })
+    })
+    
+    
 }
 
 

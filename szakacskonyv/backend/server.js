@@ -135,7 +135,7 @@ app.get('/me/:id', logincheck, (req, res) => {
 });
 // összes kisbarát adatainak bebúrása (ADMIN)
 app.get('/users', admincheck, (req, res) => {
-    pool.query(`SELECT ID, name, email, phone, role FROM users`, (err, results) => {
+    pool.query(`SELECT ID, name, email, phone, role, status FROM users`, (err, results) => {
     if(err){
         res.status(500).send('Hiba történt az adatbázis elérése közben!');
         return;
@@ -410,10 +410,10 @@ app.get('/categories/:id', (req, res) => {
 })
 //Kategória törlés
 app.delete('/deleteCat/:id', (req, res) =>{
-   /* if(!req.params.id){
+    if(!req.params.id){
         res.status(203).send('Hiányzó azonosító!');
         return;
-    }*/
+    }
 
     pool.query(`DELETE FROM categories WHERE ID='${req.params.id}'`, (err, results) => {
 
