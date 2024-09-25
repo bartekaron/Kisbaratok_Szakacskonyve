@@ -109,7 +109,7 @@ function deleteCategories(ID){
             }
         })
     }
-}
+}   
 //Frissíti
 function updateCategories(ID){
     let data = {
@@ -136,8 +136,6 @@ function editCategories(ID){
     
 }
 
-
-// Operation Bölönc 1.1
 async function loadRecipes() {
     try {
         const response = await axios.get(`${serverUrl}/recipes`, authorize());
@@ -155,8 +153,8 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
-                        <button class="btn btn-primary btn-sm" onclick="modifyRecipe(${recipe.ID})">Modify</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe(${recipe.ID})">Delete</button>
+                        <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}')">Modify</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteRecipe('${recipe.ID}')">Delete</button>
                     </div>
                 </div>
             `;
@@ -164,13 +162,8 @@ async function loadRecipes() {
             recipesList.appendChild(recipeItem);
         });
     } catch (error) {
-        console.error('Hiba a receptek betöltésekor:', error);
+        console.error('Error loading recipes:', error);
     }
-}
-
-function modifyRecipe(ID) {
-    
-    console.log('Modify recipe with id:', ID);
 }
 
 function deleteRecipe(ID) {
@@ -179,7 +172,8 @@ function deleteRecipe(ID) {
         axios.delete(`${serverUrl}/delRecipie/${ID}`, authorize())
             .then(res => {
                 if (res.status === 200) {
-                    
+                    console.log('Recipe deleted successfully');
+                    loadRecipes();
                 }
             })
             .catch(error => {
@@ -191,4 +185,12 @@ function deleteRecipe(ID) {
 
 
 
-
+    
+function modifyRecipe(ID) {
+        
+    console.log('Modify recipe with id:', ID);
+}
+    
+    
+    
+    
