@@ -1,3 +1,4 @@
+
 let kategoriak = [];
 function categoryAdd(){ 
     let data = {
@@ -156,8 +157,8 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
-                        ${loggedUser && (loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID) ? `
-                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
+                        ${loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID ? `
+                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}'); modifyRecipe('${recipe.ID}')">Módosít</button>
                         <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
                         ` : ''}
                     </div>
@@ -168,6 +169,7 @@ async function loadRecipes() {
     } catch (error) {
         console.error('Error loading recipes:', error);
     }
+    console.log(titlE);
 }
 function openForm(recipeID) {
     const recipe = recipesData.find(r => r.ID === recipeID);
@@ -198,11 +200,37 @@ function deleteRecipe(ID) {
 
 
     
-
+let iD = "";
+let titlE = document.querySelector('#titlE');
+let descP = document.querySelector('#descriptioN');
+let timE = document.querySelector('#timE');
+let additionS = document.querySelector('#additionS');
+let caloriE = document.querySelector('#caloriE');
 
 
 function modifyRecipe(ID) {
-    console.log('Modify recipe with id:', ID);
+
+    for (let i = 0; i < recipesData.length; i++) {
+        if(titlE == recipesData[i].title){
+            descP = recipesData[i].descp;
+            timE = recipesData[i].time;
+            additionS = recipesData[i].additionS;
+            caloriE = recipesData[i].additionS;
+            iD = recipesData[i].ID;
+        }   
+    }
+    data = {
+        title: titlE,
+        descp: descP,
+        time: timE,
+        additions: additionS,
+        calorie: caloriE
+    }
+    axios.patch(`${serverUrl}/changeRecipie/${ID}`, data, authorize()).then(res => {
+        if (res.status == 200){
+            render('recipes');
+        }
+    })
 }
    
 function closeForm() {
