@@ -36,6 +36,10 @@ async function render(view){
             getCategories();
             break;
         }
+        case 'statistics': {
+            loadStatistics();
+            break;
+        }
     }
 }
 
@@ -93,3 +97,31 @@ function authorize() {
     return res
 }
 renderNavItems()
+
+
+async function loadStatistics() {
+    try {
+        const response = await axios.get(`${serverUrl}/statistics`, authorize());
+        const data = response.data;
+
+        // Felhasználók számának frissítése
+        document.getElementById('userCount').innerText = data.userCount;
+
+        // Receptek számának frissítése
+        document.getElementById('recipeCount').innerText = data.recipeCount;
+
+        // Kategóriákra bontott receptek számának frissítése (opcionális)
+        const categoriesDiv = document.createElement('div');
+        categoriesDiv.innerHTML = '<h4>Kategóriák:</h4>';
+        
+        data.categories.forEach(category => {
+            categoriesDiv.innerHTML += `<p>Kategória: <strong> ${category.name}</strong>, Receptek száma: <strong>${category.recipeCount}</strong></p>`;
+        });
+
+        // Hozzáadjuk a kategóriákhoz tartozó számokat a statisztikákhoz
+        document.querySelector('.p-3').appendChild(categoriesDiv);
+    } catch (error) {
+        console.error('Hiba történt a statisztikák betöltésekor:', error);
+    }
+}
+

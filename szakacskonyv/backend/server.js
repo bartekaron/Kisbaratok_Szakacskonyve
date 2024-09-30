@@ -550,6 +550,38 @@ app.listen(port, () => {
 
 });
 
+
+// Statisztikák
+app.get('/statistics', admincheck, (req, res) => {
+    const stats = {};
+
+    // Felhasználók számának lekérdezése
+    pool.query(`SELECT COUNT(*) AS userCount FROM users`, (err, userResults) => {
+        if (err) {
+            return res.status(500).send('Hiba történt az adatbázis elérése közben!');
+        }
+        stats.userCount = userResults[0].userCount;
+
+        // Receptek számának lekérdezése
+        pool.query(`SELECT COUNT(*) AS recipeCount FROM recipes`, (err, recipeResults) => {
+            if (err) {
+                return res.status(500).send('Hiba történt az adatbázis elérése közben!');
+            }
+            stats.recipeCount = recipeResults[0].recipeCount;
+
+            // Kategóriákra bontott receptek számának lekérdezése és a kategóriák neveinek lekérdezése
+            pool.query(`SELECT categories.name, COUNT(recipes.catID) AS recipeCount FROM categories LEFT JOIN recipes ON categories.ID = recipes.catID GROUP BY categories.ID`, (err, categoryResults) => {
+                if (err) {
+                    return res.status(500).send('Hiba történt az adatbázis elérése közben!');
+                }
+                stats.categories = categoryResults;
+
+                res.status(200).send(stats);
+            });
+        });
+    });
+});
+
 /*
 szakacskonyv - users
 
