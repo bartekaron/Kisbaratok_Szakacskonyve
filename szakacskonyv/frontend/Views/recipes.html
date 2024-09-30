@@ -17,7 +17,7 @@
 
 
     <div class="form-popup" id="myModify">
-        <form id="modifyForm" class="form-container">
+        <form id="modifyForm" class="form-container" onsubmit="return modifyRecipe(event, '${recipe.ID}')">
             <h1>Módosítás</h1>
     
             <label for="title"><p>Név</p></label>
@@ -35,7 +35,7 @@
             <label for="calorie"><p>Kalória</p></label>
             <input type="text" placeholder="Add meg a kalóriát" id="caloriE" required>
     
-            <button class="btn btn-primary btn-sm mb-3" onclick="modifyRecipe('${recipe.ID}')">Módosít</button>
+            <button type="submit" class="btn btn-primary btn-sm mb-3">Módosít</button>
             <button type="button" class="btn btn-danger btn-sm" onclick="closeForm()">Bezár</button>
         </form>
     </div>

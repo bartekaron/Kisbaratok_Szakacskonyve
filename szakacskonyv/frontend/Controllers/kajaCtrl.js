@@ -176,7 +176,10 @@ async function loadRecipes() {
     }
    
 }
+let currentRecipeID = ""; 
+
 function openForm(recipeID) {
+    currentRecipeID = recipeID; // Store the recipe ID here
     const recipe = recipesData.find(r => r.ID === recipeID);
     document.getElementById("myModify").style.display = "block";
     document.getElementById("titlE").value = recipe.title;
@@ -203,11 +206,33 @@ function deleteRecipe(ID) {
 }
 
 
+function modifyRecipe() {
+    let titlE = document.querySelector('#titlE').value;
+    let descP = document.querySelector('#descriptioN').value;
+    let timE = document.querySelector('#timE').value;
+    let additionS = document.querySelector('#additionS').value;
+    let caloriE = document.querySelector('#caloriE').value;
+    
+    // Assuming you're using a global variable or a closure to store the selected ID when opening the form
+    let data = {
+        title: titlE,
+        descp: descP,
+        time: timE,
+        additions: additionS,
+        calorie: caloriE
+    }
+    
+    axios.patch(`${serverUrl}/changeRecipie/${currentRecipeID}`, data, authorize()).then(res => {
+        // Handle success
+        if (res.status == 200) {
+            loadRecipes(); // Refresh the recipe list on a successful modification
+        }
+    });
+}
 
 
 
-
-function modifyRecipe(ID) {
+/*function modifyRecipe(ID) {
 
     titlE = document.querySelector('#titlE').value;
     descP = document.querySelector('#descriptioN').value;
@@ -235,7 +260,8 @@ function modifyRecipe(ID) {
             render('recipes');
         }
     })
-}
+}*/
+
    
 function closeForm() {
     document.getElementById("myModify").style.display = "none";
