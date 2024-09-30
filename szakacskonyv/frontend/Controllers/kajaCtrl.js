@@ -1,3 +1,10 @@
+    
+let iD;
+let titlE;
+let descP; 
+let timE; 
+let additionS; 
+let caloriE; 
 
 let kategoriak = [];
 function categoryAdd(){ 
@@ -158,7 +165,7 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
                         ${loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID ? `
-                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}'); modifyRecipe('${recipe.ID}')">Módosít</button>
+                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
                         <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
                         ` : ''}
                     </div>
@@ -169,16 +176,16 @@ async function loadRecipes() {
     } catch (error) {
         console.error('Error loading recipes:', error);
     }
-    console.log(titlE);
+   
 }
 function openForm(recipeID) {
     const recipe = recipesData.find(r => r.ID === recipeID);
     document.getElementById("myModify").style.display = "block";
-    document.getElementById("title").value = recipe.title;
-    document.getElementById("description").value = recipe.descp;
-    document.getElementById("time").value = recipe.time;
-    document.getElementById("additions").value = recipe.additions;
-    document.getElementById("calorie").value = recipe.calorie;
+    document.getElementById("titlE").value = recipe.title;
+    document.getElementById("descriptioN").value = recipe.descp;
+    document.getElementById("timE").value = recipe.time;
+    document.getElementById("additionS").value = recipe.additions;
+    document.getElementById("caloriE").value = recipe.calorie;
 }
 
 
@@ -199,23 +206,20 @@ function deleteRecipe(ID) {
 
 
 
-    
-let iD = "";
-let titlE = document.querySelector('#titlE');
-let descP = document.querySelector('#descriptioN');
-let timE = document.querySelector('#timE');
-let additionS = document.querySelector('#additionS');
-let caloriE = document.querySelector('#caloriE');
+
 
 
 function modifyRecipe(ID) {
 
+    titlE = document.querySelector('#titlE').value;
+    descP = document.querySelector('#descriptioN').value;
+    timE = document.querySelector('#timE').value;
+    additionS = document.querySelector('#additionS').value;
+    caloriE = document.querySelector('#caloriE').value;
+   
+    
     for (let i = 0; i < recipesData.length; i++) {
         if(titlE == recipesData[i].title){
-            descP = recipesData[i].descp;
-            timE = recipesData[i].time;
-            additionS = recipesData[i].additionS;
-            caloriE = recipesData[i].additionS;
             iD = recipesData[i].ID;
         }   
     }
@@ -226,7 +230,9 @@ function modifyRecipe(ID) {
         additions: additionS,
         calorie: caloriE
     }
-    axios.patch(`${serverUrl}/changeRecipie/${ID}`, data, authorize()).then(res => {
+    console.log(data);
+    axios.patch(`${serverUrl}/changeRecipie/${iD}`, data, authorize()).then(res => {
+        //alert(res.data);
         if (res.status == 200){
             render('recipes');
         }

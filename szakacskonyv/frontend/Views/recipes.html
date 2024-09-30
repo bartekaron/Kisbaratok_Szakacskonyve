@@ -25,15 +25,15 @@
             <input type="text" placeholder="Add meg a leírást" id="descriptioN" required>
     
             <label for="time"><p>Elkészítési idő</p></label>
-            <input type="number" placeholder="Add meg az elkészítési időt" id="timE" required>
+            <input type="text" placeholder="Add meg az elkészítési időt" id="timE" required>
     
             <label for="additions"><p>Hozzávalók</p></label>
             <input type="text" placeholder="Add meg a hozzávalókat" id="additionS" required>
     
             <label for="calorie"><p>Kalória</p></label>
-            <input type="number" placeholder="Add meg a kalóriát" id="caloriE" required>
+            <input type="text" placeholder="Add meg a kalóriát" id="caloriE" required>
     
-            <button class="btn btn-primary btn-sm mb-3">Módosít</button>
+            <button class="btn btn-primary btn-sm mb-3" onclick="modifyRecipe('${recipe.ID}')">Módosít</button>
             <button type="button" class="btn btn-danger btn-sm" onclick="closeForm()">Bezár</button>
         </form>
     </div>
