@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Sze 25. 10:29
+-- Létrehozás ideje: 2024. Sze 30. 12:07
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -37,12 +37,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`ID`, `name`) VALUES
-('59f4f21d-65f6-4dd5-b38f-f8180ce53b6b', 'Janis Bölönc'),
-('65af25df-97e1-4fcf-b1b9-7ed433a03ced', 'Mákos Bölönc'),
-('883da7cf-b152-48df-9293-3796beba5fc7', 'Babos Bölönc'),
-('c5d1cebe-4578-41d0-9c07-4dc5717648ad', 'Kukoricás Bölönc'),
-('d71afd00-4f03-4d96-aa01-b223efa52d59', 'Balázsos Bölönc'),
-('f1dc48c6-c09d-4e48-bc51-22736b849e5f', 'Csokis Bölönc');
+('37971fb2-c5f4-4e8d-a756-b3856479d568', 'Levesek'),
+('3b8d6455-785b-48f4-9768-fb13d5b3c55b', 'Desszertek'),
+('faa12bbe-fd07-4902-8df9-a1ad597a2eac', 'Főételek');
 
 -- --------------------------------------------------------
 
@@ -66,7 +63,10 @@ CREATE TABLE `recipes` (
 --
 
 INSERT INTO `recipes` (`ID`, `catID`, `userID`, `title`, `descp`, `time`, `additions`, `calorie`) VALUES
-('f2c9a11d-2a37-44e3-9426-5007268138a7', '59f4f21d-65f6-4dd5-b38f-f8180ce53b6b', 'fdc59140-e825-4eba-9667-ec8de9995aa7', 'Bab', 'asd', 50, 'asd', 50);
+('3a34bf5c-b00f-44a7-ae50-51057d62cb01', '3b8d6455-785b-48f4-9768-fb13d5b3c55b', 'fdc59140-e825-4eba-9667-ec8de9995aa7', 'Somlói galuska', 'Háromféle piskóta, csokoládéöntet és tejszínhab', 30, 'Dió', 500),
+('9055e7ff-1916-44b4-8237-694cc444f96f', '37971fb2-c5f4-4e8d-a756-b3856479d568', 'fdc59140-e825-4eba-9667-ec8de9995aa7', 'Gulyásleves', 'Hagyományos magyar leves marhahússal és zöldségekkel', 90, 'Tejföl', 350),
+('b3c064e8-f143-4703-b9bd-c428d7b3c74f', 'faa12bbe-fd07-4902-8df9-a1ad597a2eac', 'fdc59140-e825-4eba-9667-ec8de9995aa7', 'Paprikás csirke', 'Csirkehús paprikás mártásban, nokedlivel', 60, 'Tejföl', 450),
+('d40b5a87-7885-4810-a38b-9d4997e4b0b9', '3b8d6455-785b-48f4-9768-fb13d5b3c55b', 'd3a65d1f-54be-4b40-98f9-2aa5ece5b67b', 'Gesztenyepüré', 'Gyors, sütés, főzés nélküli, kiváló desszert', 30, '      500 g gesztenyepüré (mirelit)     ', 800);
 
 -- --------------------------------------------------------
 
@@ -89,7 +89,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `name`, `email`, `passwd`, `phone`, `role`, `status`) VALUES
-('ca5699c3-da27-41bb-b296-c6f6378f72a1', 'Gáspár Laci', 'gaspar.laci@gmail.com', '3b971765a4a961802c4a04e3c11a0e3e2f1a02a5', '06302143000', 'user', 'true'),
+('d3a65d1f-54be-4b40-98f9-2aa5ece5b67b', 'Lolmester37', 'lolmester37@gmail.com', 'fc58337e500736cd87055a263c2d07c69f5baa8f', '0630708923', 'user', 'true'),
 ('fdc59140-e825-4eba-9667-ec8de9995aa7', 'Admin', 'admin@admin.admin', '3dae2b74a8d6a899b3d51c0795fdaf3f2b76e9eb', '', 'admin', 'true');
 
 --
