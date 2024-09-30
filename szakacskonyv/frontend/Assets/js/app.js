@@ -15,8 +15,12 @@ async function render(view){
             break
         }
         case 'recipes': {
-            categoryLoad("#categorySelector");
             loadRecipes();
+            categoryLoad("#categorySelector");
+            document.querySelector('#categorySelector').addEventListener('change', function() {
+                const selectedCategory = this.value; // Get the selected category ID
+                filterRecipesByCategory(selectedCategory);
+            });
             break;
         }
         case 'addrecipes': {

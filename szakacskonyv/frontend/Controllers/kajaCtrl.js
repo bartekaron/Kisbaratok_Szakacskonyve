@@ -39,8 +39,6 @@ function categoryLoad(ID){
     });
 
 }
-
-
 function recipeAdd(){
     const categoryChoser = document.querySelector('#categoryChoser').value;
     let data = {
@@ -164,7 +162,7 @@ async function loadRecipes() {
                         <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                         <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                         <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
-                        ${loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID ? `
+                        ${loggedUser &&(loggedUser[0].role == 'admin' || loggedUser[0].ID == recipe.userID) ? `
                         <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
                         <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
                         ` : ''}
@@ -242,7 +240,63 @@ function modifyRecipe(ID) {
 function closeForm() {
     document.getElementById("myModify").style.display = "none";
 }
+
+
     
-    
-    
+function filterRecipesByCategory(categoryId) {
+    const recipesList = document.getElementById('recipes-list');
+    recipesList.innerHTML = ''; // Clear the current displayed recipes
+
+    // Check if the selected category is empty (Show All)
+    if (categoryId === "") {
+        // If "Show All" is selected, render all recipes
+        recipesData.forEach(recipe => {
+            const recipeItem = document.createElement('div');
+            recipeItem.className = 'col-md-4 mb-4';
+            recipeItem.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Név:</strong> ${recipe.title}</h5>
+                        <p class="card-text"><strong>Leírás:</strong> ${recipe.descp}</p>
+                        <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
+                        <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
+                        <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
+                        ${loggedUser && (loggedUser[0].role === 'admin' || loggedUser[0].ID === recipe.userID) ? `
+                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
+                        <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            recipesList.appendChild(recipeItem); // Add the recipe to the displayed list
+        });
+    } else {
+        // Filter recipes that match the selected category
+        const filteredRecipes = recipesData.filter(recipe => recipe.catID === categoryId);
+
+        // Render the filtered recipes
+        filteredRecipes.forEach(recipe => {
+            const recipeItem = document.createElement('div');
+            recipeItem.className = 'col-md-4 mb-4';
+            recipeItem.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Név:</strong> ${recipe.title}</h5>
+                        <p class="card-text"><strong>Leírás:</strong> ${recipe.descp}</p>
+                        <p class="card-text"><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
+                        <p class="card-text"><strong>Hozzávalók:</strong> ${recipe.additions}</p>
+                        <p class="card-text"><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
+                        ${loggedUser && (loggedUser[0].role === 'admin' || loggedUser[0].ID === recipe.userID) ? `
+                        <button class="btn btn-primary" onclick="openForm('${recipe.ID}')">Módosít</button>
+                        <button class="btn btn-danger" onclick="deleteRecipe('${recipe.ID}')">Töröl</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+            recipesList.appendChild(recipeItem); // Add the recipe to the displayed list
+        });
+    }
+}
+
+
 //  <button class="btn btn-primary btn-sm" onclick="modifyRecipe('${recipe.ID}');openForm()">Módosít</button>
