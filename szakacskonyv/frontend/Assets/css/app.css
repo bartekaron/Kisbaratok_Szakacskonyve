@@ -1,7 +1,26 @@
 header{
-    font-size: 250%;
-    text-align: center;
-    line-height: 150px;
+  font-size: 250%;
+  text-align: center;
+  line-height: 150px;
+    
+}
+nav{
+  color: #f98dc9;
+}
+a{
+  color: #f98dc9;
+}
+li{
+  color: #f98dc9;
+}
+*{
+  font-family: Garamond, serif;
+}
+
+body{
+  color: #f98dc9;
+  background-color: #d7fffe;
+  
 }
 hr{
     border-style: dashed;
@@ -61,6 +80,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .form-container input[type=text]:focus, .form-container input[type=password]:focus {
   background-color: black;
   outline: none;
+}
+nav{
+  color: #f98dc9;
 }
 
 /* Set a style for the submit/login button */
