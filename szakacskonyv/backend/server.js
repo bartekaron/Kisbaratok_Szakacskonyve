@@ -176,12 +176,37 @@ app.patch('/users/:id', /*logincheck,*/ (req, res) => {
         return;
     }
 
-    if(!req.body.name || !req.body.email || !req.body.role){
+    if(!req.body.name || !req.body.email){
         res.status(203).send('Hiányzó adatok!');
         return;
     }
-
     pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}', role='${req.body.role}', status='${req.body.status}' WHERE ID='${req.params.id}'`, (err, results) => {
+        if(err){
+            res.status(500).send('Hiba történt az adatbázis elérése közben!');
+            return;
+        }
+        if(results.affectedRows == 0){
+            res.status(203).send('Hibás azonosító!');
+            return;
+        }
+
+        res.status(200).send('Sikeres módosítás!');
+        return;
+    });
+
+});
+app.patch('/userMod/:id', /*logincheck,*/ (req, res) => {
+    console.log(req.body);
+    if(!req.params.id){
+        res.status(203).send('Hiányzó azonosító!');
+        return;
+    }
+
+    if(!req.body.name || !req.body.email){
+        res.status(203).send('Hiányzó adatok!');
+        return;
+    }
+    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}' WHERE ID='${req.params.id}'`, (err, results) => {
         if(err){
             res.status(500).send('Hiba történt az adatbázis elérése közben!');
             return;

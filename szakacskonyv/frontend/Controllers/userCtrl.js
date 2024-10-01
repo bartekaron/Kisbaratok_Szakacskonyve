@@ -58,9 +58,8 @@ function UpdateProfile(){
         name: document.querySelector('#name').value,
         email: document.querySelector('#email').value,
         phone: document.querySelector('#phone').value,
-        passwd: document.querySelector('#passwd').value
     };
-    axios.patch(`${serverUrl}/users/${loggedUser[0].ID}`, data, authorize()).then(res => {
+    axios.patch(`${serverUrl}/userMod/${loggedUser[0].ID}`, data, authorize()).then(res => {
         alert(res.data);
     }).catch(err => {
         console.error(err);
