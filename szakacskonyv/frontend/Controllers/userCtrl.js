@@ -8,7 +8,7 @@ function regisztracio(){
         confirm: document.querySelector('#confirm').value
     }
 
-    axios.post(`${serverUrl}/reg`, newUser).then(res => {
+    axios.post(`${serverUrl}/users/get`, newUser).then(res => {
         alert(res.data)
     })
 }
@@ -19,7 +19,7 @@ function login(){
         passwd: document.querySelector('#passwd').value
     }
 
-    axios.post(`${serverUrl}/log`, user).then(res =>{
+    axios.post(`${serverUrl}/users/log`, user).then(res =>{
        
         if (res.status != 202){
             alert(res.data)
@@ -46,7 +46,7 @@ function logout(){
 }
 //kapom a finom kis profilomat :3
 function getMyProfile(){
-    axios.get(`${serverUrl}/me/${loggedUser[0].ID}`, authorize()).then(res => {
+    axios.get(`${serverUrl}/users/me/${loggedUser[0].ID}`, authorize()).then(res => {
         document.querySelector('#name').value = res.data[0].name;
         document.querySelector('#email').value = res.data[0].email;
         document.querySelector('#phone').value = res.data[0].phone;
@@ -59,7 +59,7 @@ function UpdateProfile(){
         email: document.querySelector('#email').value,
         phone: document.querySelector('#phone').value,
     };
-    axios.patch(`${serverUrl}/userMod/${loggedUser[0].ID}`, data, authorize()).then(res => {
+    axios.patch(`${serverUrl}/users/userMod/${loggedUser[0].ID}`, data, authorize()).then(res => {
         alert(res.data);
     }).catch(err => {
         console.error(err);
@@ -178,7 +178,7 @@ function UpdatePasswd(){
         confirm: document.querySelector('#confirm').value
     }
 
-    axios.patch(`${serverUrl}/passmod/${loggedUser[0].ID}`, data, authorize()).then(res => {
+    axios.patch(`${serverUrl}/users/passmod/${loggedUser[0].ID}`, data, authorize()).then(res => {
         alert(res.data)
 
         if (res.status == 200){
